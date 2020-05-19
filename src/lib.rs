@@ -467,7 +467,7 @@ impl MemoryMap {
 #[cfg(test)]
 mod tests {
     extern crate libc;
-    extern crate tempdir;
+    extern crate tempfile;
 
     use super::{MapOption, MemoryMap};
 
@@ -503,7 +503,7 @@ mod tests {
             file.as_raw_handle()
         }
 
-        let tmpdir = tempdir::TempDir::new("").unwrap();
+        let tmpdir = tempfile::tempdir().unwrap();
         let mut path = tmpdir.path().to_path_buf();
         path.push("mmap_file.tmp");
         let size = MemoryMap::granularity() * 2;

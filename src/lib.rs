@@ -512,7 +512,7 @@ mod tests {
             .open(&path)
             .unwrap();
         file.seek(SeekFrom::Start(size as u64)).unwrap();
-        file.write(b"\0").unwrap();
+        file.write_all(b"\0").unwrap();
         let fd = get_fd(&file);
 
         let chunk = MemoryMap::new(

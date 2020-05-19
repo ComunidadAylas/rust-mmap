@@ -257,7 +257,7 @@ impl MemoryMap {
         } else {
             Ok(MemoryMap {
                 data: r as *mut u8,
-                len: len,
+                len,
                 kind: if fd == -1 {
                     MapVirtual
                 } else {
@@ -354,7 +354,7 @@ impl MemoryMap {
                 0 => Err(ErrVirtualAlloc()),
                 _ => Ok(MemoryMap {
                     data: r as *mut u8,
-                    len: len,
+                    len,
                     kind: MapVirtual,
                 }),
             }
@@ -388,7 +388,7 @@ impl MemoryMap {
                     0 => Err(ErrMapViewOfFile(errno())),
                     _ => Ok(MemoryMap {
                         data: r as *mut u8,
-                        len: len,
+                        len,
                         kind: MapFile(mapping as *const u8),
                     }),
                 }
@@ -451,6 +451,11 @@ impl MemoryMap {
     #[inline(always)]
     pub fn len(&self) -> usize {
         self.len
+    }
+
+    #[inline(always)]
+    pub fn is_empty(&self) -> bool {
+        self.len() == 0
     }
 
     /// Returns the type of mapping this represents.
